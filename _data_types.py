@@ -8,10 +8,10 @@ Author:
 Nilusink
 """
 from dataclasses import dataclass
-from ._vectors import Vec2
+from ._vectors import Vec2, Vec3
 
 
-@dataclass()
+@dataclass
 class Box:
     position: Vec2
     size: Vec2
@@ -25,6 +25,12 @@ class Box:
 
     def __repr__(self) -> str:
         return f"Box<position: {self.position}, size: {self.size}>"
+
+
+@dataclass
+class AngularTrack:
+    cam_id: int
+    direction: Vec3
 
 
 if __name__ == "__main__":

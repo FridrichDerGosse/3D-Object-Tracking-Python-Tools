@@ -7,71 +7,56 @@ _tracking.py
 Author:
 Nilusink
 """
-import typing as tp
-from ._data_types import Box, Vec2
+from dataclasses import dataclass
+from ._data_types import Vec3
 
+# raise NotImplementedError("not rewritten to 3d")
 
 class Track:
-    movement_threshold: float = 50
-    track_timeout: int = 20
-
-    last_box: Box
-    position_history: list[Vec2]
+    # movement_threshold: float = 50
+    # track_timeout: int = 20
+    #
+    # last_box: Box
+    position_history: list[Vec3]
 
     _track_type: int  # -1: degraded, 0: new / unclassified, 1: tracking / valid
-    _current_timeout: int
+    _id: int
+    # _current_timeout: int
 
-    def __init__(self, box: Box) -> None:
-        self._current_timeout = self.track_timeout
-        self.position_history = [box.center]
-        self.last_box = box
+    def __init__(self, track_id: int, pos: Vec3, track_type: int) -> None:
+        self._id = track_id
+        self.position_history = [pos.copy()]
+        # self.last_box = box
 
-        self._track_type = 0
+        self._track_type = track_type
 
     @property
     def track_type(self) -> int:
         return self._track_type
 
-    def in_range(self, box: Box) -> bool:
+    @property
+    def track_id(self) -> int:
+        return self._id
+
+    @property
+    def position(self) -> Vec3:
+        return self.position_history[-1]
+
+    def update_track(self, pos: Vec3, track_type: int | None = None) -> None:
         """
-        check if a new box is in range
+        append position to track and optionally update track type
         """
-        return abs(
-            (box.center - box.center).length
-        ) < max(
-            self.last_box.size.x, self.last_box.size.y
-        ) / 4
+        if track_type is not None:
+            self._track_type = track_type
 
-    def update_track(self, box: Box | None = None) -> None:
-        if self._track_type == -1:
-            return
-
-        if box is None:
-            self._current_timeout -= 1
-
-            if self._current_timeout < 0:
-                print(self, "degraded")
-                self._track_type = -1
-
-            return
-
-        if self._track_type == 0:
-            self._current_timeout = self.track_timeout
-            self.position_history.append(box.center)
-
-            if abs(
-                    (self.position_history[0] - self.position_history[-1]).length
-            ) > self.movement_threshold:
-                self._track_type = 1
-
-        elif self._track_type == 1:
-            self._current_timeout = self.track_timeout
-            self.position_history.append(box.center)
-
-        else:
-            ...
-
-        self.last_box = box
+        self.position_history.append(pos)
 
     def __repr__(self):
-        return f"Track<center: {self.last_box.center}, type: {self.track_type}>"
+        return f"Track<center: {self.position}, type: {self.track_type}>"
+
+
+@dataclass
+class TrackUpdate:
+    track_id: int
+    pos: Vec3
+    track_type: int
