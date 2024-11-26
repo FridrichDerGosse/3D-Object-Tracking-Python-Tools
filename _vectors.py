@@ -232,63 +232,63 @@ class Vec2[T: (int, float)]:
         return value
 
 
-class Vec3:
+class Vec3[_T: int | float]:
     """
     Simple 3D vector class
     """
-    x: float
-    y: float
-    z: float
+    x: _T
+    y: _T
+    z: _T
     angle_xy: float
     angle_xz: float
     length_xy: float
     length: float
 
     def __init__(self):
-        self.__x: float = 0
-        self.__y: float = 0
-        self.__z: float = 0
+        self.__x: _T = 0
+        self.__y: _T = 0
+        self.__z: _T = 0
         self.__angle_xy: float = 0
         self.__angle_xz: float = 0
         self.__length_xy: float = 0
         self.__length: float = 0
 
     @property
-    def x(self) -> float:
+    def x(self) -> _T:
         return self.__x
 
     @x.setter
-    def x(self, value: float) -> None:
+    def x(self, value: _T) -> None:
         self.__x = value
         self.__update("c")
 
     @property
-    def y(self) -> float:
+    def y(self) -> _T:
         return self.__y
 
     @y.setter
-    def y(self, value: float) -> None:
+    def y(self, value: _T) -> None:
         self.__y = value
         self.__update("c")
 
     @property
-    def z(self) -> float:
+    def z(self) -> _T:
         return self.__z
 
     @z.setter
-    def z(self, value: float) -> None:
+    def z(self, value: _T) -> None:
         self.__z = value
         self.__update("c")
 
     @property
-    def xyz(self) -> tp.Tuple[float, float, float]:
+    def xyz(self) -> tp.Tuple[_T, _T, _T]:
         """
         :return: x, y, z
         """
         return self.x, self.y, self.z
 
     @xyz.setter
-    def xyz(self, value: tp.Tuple[float, float, float]) -> None:
+    def xyz(self, value: tp.Tuple[_T, _T, _T]) -> None:
         """
         :param value: (x, y, z)
         """
@@ -361,7 +361,7 @@ class Vec3:
         return v
 
     @classmethod
-    def from_cartesian(cls, x: float, y: float, z: float) -> tp.Self:
+    def from_cartesian(cls, x: _T, y: _T, z: _T) -> tp.Self:
         """
         create a Vector3D from cartesian form
         """

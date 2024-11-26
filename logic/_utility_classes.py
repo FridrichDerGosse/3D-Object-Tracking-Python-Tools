@@ -36,7 +36,7 @@ class SimpleLock:
     def __init__(self) -> None:
         self.__locked_by: str = ...
 
-    def aquire(
+    def acquire(
         self,
         timeout: float = 0
     ) -> bool:

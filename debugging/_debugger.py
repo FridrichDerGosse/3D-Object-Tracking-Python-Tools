@@ -29,8 +29,8 @@ class _Debugger:
     _debug_colors: dict[str, str] = {
         "error": CC.fg.RED,
         "warning": CC.fg.YELLOW,
-        "info": CC.bfg.WHITE,
-        "log": CC.fg.CYAN,
+        "info": CC.bfg.CYAN,
+        "log": CC.fg.WHITE,
         "trace": get_fg_color(240)
     }
     def __init__(self):
@@ -39,19 +39,24 @@ class _Debugger:
         self._write_debug = ...
         self._debug_level = ...
 
-#         # fancy stuff
-#         for debug_level in self._debug_colors:
-#             ic(debug_level)
-#             exec(f"""
-# def {debug_level}(self, *args):
-#     \"\"\"
-#     level: {debug_level}
-#     \"\"\"
-#     if self._debug_level >= {getattr(DebugLevel, debug_level)}:
-#         self._write(*args, color=\"{self._debug_colors[debug_level]}\")
-#
-# setattr(_Debugger, debug_level, types.MethodType({debug_level}, _Debugger))
-# """)
+        # # fancy stuff
+        # for debug_level in self._debug_colors:
+        #     ic(debug_level)
+        #
+        #     def tmp(self, *args):
+        #         """
+        #         level: {debug_level}
+        #         """
+        #         print(args)
+        #         ic(self._debug_level, getattr(DebugLevel, debug_level), self._debug_level >= getattr(DebugLevel, debug_level))
+        #         if self._debug_level >= getattr(DebugLevel, debug_level):
+        #             self._write(*args, color=self._debug_colors[debug_level])
+        #
+        #     setattr(
+        #         _Debugger,
+        #         debug_level,
+        #         types.MethodType(tmp, self)
+        #     )
 
     def init(
             self,
