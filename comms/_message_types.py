@@ -30,6 +30,7 @@ class TResData(BaseModel):
 
 class TRes3Data(BaseModel):
     track_id: int
+    track_type: int  # -1: degraded, 0: new, 1: valid
     position: tuple[float, float, float]
     cam_angles: list[CamAngle3]
 
