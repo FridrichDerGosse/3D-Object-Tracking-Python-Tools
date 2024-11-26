@@ -16,14 +16,22 @@ class CamAngle(BaseModel):
     cam_id: int
     direction: tuple[float, float]
 
+
+class CamAngle3(BaseModel):
+    cam_id: int
+    position: tuple[float, float, float]
+    direction: tuple[float, float, float]
+
+
 class TResData(BaseModel):
     track_id: int
     cam_angles: list[CamAngle]
 
+
 class TRes3Data(BaseModel):
     track_id: int
     position: tuple[float, float, float]
-    cam_angles: list[CamAngle]
+    cam_angles: list[CamAngle3]
 
 
 class SInfData(BaseModel):
@@ -39,9 +47,11 @@ class TResDataMessage(BaseModel):
     type: tp.Literal["tres"] = "tres"
     data: TResData
 
+
 class TRes3DataMessage(BaseModel):
     type: tp.Literal["tres3"] = "tres3"
     data: TRes3Data
+
 
 class SInfDataMessage(BaseModel):
     type: tp.Literal["sinf"] = "sinf"
