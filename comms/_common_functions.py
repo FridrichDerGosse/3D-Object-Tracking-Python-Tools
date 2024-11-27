@@ -17,7 +17,7 @@ import json
 
 from ._message_future import MessageFuture
 from ._message_types import *
-from core.tools import debugger
+from ..debugging import debugger
 
 
 DEVICE_MAC: int = getnode()

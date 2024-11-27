@@ -30,6 +30,7 @@ class Box:
 @dataclass
 class AngularTrack:
     cam_id: int
+    position: Vec3
     direction: Vec3
 
 

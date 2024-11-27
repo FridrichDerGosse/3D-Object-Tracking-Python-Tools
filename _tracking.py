@@ -35,7 +35,7 @@ class Track:
         return self._track_type
 
     @property
-    def track_id(self) -> int:
+    def id(self) -> int:
         return self._id
 
     @property
