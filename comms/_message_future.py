@@ -18,12 +18,19 @@ class MessageFuture:
     def done(self) -> bool:
         return self._message is not ...
 
-    def wait_until_done(self, check_interval: float = .01) -> None:
+    def wait_until_done(self, check_interval: float = .01, timeout: float = None) -> bool:
         """
         wait until the Future has been set
         """
+        time_passed = 0
         while not self.done():
             sleep(check_interval)
+            time_passed += check_interval
+
+            if timeout is not None and time_passed > timeout:
+                return False
+
+        return True
 
     @property
     def message(self) -> Message:

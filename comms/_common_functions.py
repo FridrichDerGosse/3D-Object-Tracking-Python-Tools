@@ -81,9 +81,20 @@ def prepare_message(
             type_name = "repl"
             message_type = ReplMessage
 
-        case DataDataMessage():
+        case TResData():
             type_name = "data"
             message_type = DataMessage
+            data = TResDataMessage(data=data)
+
+        case TRes3Data():
+            type_name = "data"
+            message_type = DataMessage
+            data = TRes3DataMessage(data=data)
+
+        case SInfData():
+            type_name = "data"
+            message_type = DataMessage
+            data = SInfDataMessage(data=data)
 
         case _:
             debugger.error("invalid message data for send")
@@ -93,7 +104,7 @@ def prepare_message(
     t = time()
     message = message_type(
         type=type_name,
-        id=int(t + DEVICE_MAC),
+        id=int(t*1e6 + DEVICE_MAC),
         time=t,
         data=data
     )
@@ -134,7 +145,7 @@ def receive_message(
         raise RuntimeError
 
     if data == "":
-        debugger.error("server disconnected")
+        debugger.error("peer disconnected")
         raise RuntimeError
 
     # try validating to json
