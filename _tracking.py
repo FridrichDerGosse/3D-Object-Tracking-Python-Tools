@@ -18,14 +18,16 @@ class Track:
     #
     # last_box: Box
     position_history: list[Vec3]
+    accuracy_history: list[float]
 
     _track_type: int  # -1: degraded, 0: new / unclassified, 1: tracking / valid
     _id: int
     # _current_timeout: int
 
-    def __init__(self, track_id: int, pos: Vec3, track_type: int) -> None:
+    def __init__(self, track_id: int, pos: Vec3, accuracy: float, track_type: int) -> None:
         self._id = track_id
         self.position_history = [pos.copy()]
+        self.accuracy_history = [accuracy]
         # self.last_box = box
 
         self._track_type = track_type
@@ -42,7 +44,16 @@ class Track:
     def position(self) -> Vec3:
         return self.position_history[-1]
 
-    def update_track(self, pos: Vec3, track_type: int | None = None) -> None:
+    @property
+    def accuracy(self) -> float:
+        return self.accuracy_history[-1]
+
+    def update_track(
+            self,
+            pos: Vec3,
+            accuracy: float,
+            track_type: int | None = None
+    ) -> None:
         """
         append position to track and optionally update track type
         """
@@ -50,6 +61,7 @@ class Track:
             self._track_type = track_type
 
         self.position_history.append(pos)
+        self.accuracy_history.append(accuracy)
 
     def __repr__(self):
         return f"Track<center: {self.position}, type: {self.track_type}>"
